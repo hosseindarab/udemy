@@ -37,7 +37,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return user->id === $project->creator_id;
+        return $user->id === $project->creator_id;
     }
 
     /**
