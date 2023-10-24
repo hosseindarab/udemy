@@ -8,8 +8,21 @@ use App\Http\Resources\UserCollection;
 
 class MembersController extends Controller
 {
-    public function index(Request $request, Project $project){
-        $members = $project-> members;
+    public function index(Request $request, Project $project)
+    {
+        $members = $project->members;
+
+        return new UserCollection($members);
+    }
+
+    public function store(Request $request, Project $project)
+    {
+        $request->validate([
+            "user_id" => "required|exists:users,id",
+        ]);
+
+        $project->members()->syncWithoutDetaching($request->input("user_id"));
+        $members = $project->members;
 
         return new UserCollection($members);
     }
